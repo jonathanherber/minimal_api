@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jonathan\\Documents\\ProjetosCSharp\\Comercio\\Comercio.csproj": {}
+    "C:\\Users\\Jonathan\\Desktop\\pj\\Comercio\\Comercio.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jonathan\\Documents\\ProjetosCSharp\\Comercio\\Comercio.csproj": {
+    "C:\\Users\\Jonathan\\Desktop\\pj\\Comercio\\Comercio.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jonathan\\Documents\\ProjetosCSharp\\Comercio\\Comercio.csproj",
+        "projectUniqueName": "C:\\Users\\Jonathan\\Desktop\\pj\\Comercio\\Comercio.csproj",
         "projectName": "Comercio",
-        "projectPath": "C:\\Users\\Jonathan\\Documents\\ProjetosCSharp\\Comercio\\Comercio.csproj",
+        "projectPath": "C:\\Users\\Jonathan\\Desktop\\pj\\Comercio\\Comercio.csproj",
         "packagesPath": "C:\\Users\\Jonathan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jonathan\\Documents\\ProjetosCSharp\\Comercio\\obj\\",
+        "outputPath": "C:\\Users\\Jonathan\\Desktop\\pj\\Comercio\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Jonathan\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -53,6 +53,10 @@
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
               "version": "[6.0.4, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.3.1, )"
             }
           },
           "imports": [

@@ -9,11 +9,11 @@ namespace Comercio.Controllers
     public class ClientsController : ControllerBase
     {
         //GET
-        [HttpGet("/clientes")]
+        [HttpGet("/clients")]
         public IActionResult Get([FromServices] AppDbContext context)=> Ok(context.Client.ToList());
         
         //POST
-        [HttpPost("/clientes")]
+        [HttpPost("/clients")]
         public IActionResult Post (
             [FromBody] Clients client,
             [FromServices] AppDbContext context)
@@ -21,10 +21,10 @@ namespace Comercio.Controllers
                 context.Client.Add(client);
                 context.SaveChanges();
 
-                return Created($"/clientes/{client.Id}",client);
+                return Created($"/clients/{client.Id}",client);
             }
         //GET BY ID
-        [HttpGet("/clientes/{id:int}")]
+        [HttpGet("/clients/{id:int}")]
         public IActionResult GetById(
             [FromRoute] int id,
             [FromServices] AppDbContext context){ 
@@ -35,7 +35,7 @@ namespace Comercio.Controllers
             return Ok(clien);
         }   
         //PUT
-        [HttpPut("/clientes/{id:int}")]
+        [HttpPut("/clients/{id:int}")]
          public IActionResult Put (
             [FromRoute] int id,
             [FromBody] Clients client,
@@ -46,14 +46,13 @@ namespace Comercio.Controllers
                     return NotFound();
                 }
                 model.Name = client.Name;
-                model.Cpf = client.Cpf;
                 
                 context.Client.Update(model);
                 context.SaveChanges();
                 return Ok(model);
             }
             //DELETE
-        [HttpDelete("/clientes/{id:int}")]
+        [HttpDelete("/clients/{id:int}")]
          public IActionResult Delete (
             [FromRoute] int id,
             [FromServices] AppDbContext context)

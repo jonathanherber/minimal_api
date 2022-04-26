@@ -9,11 +9,11 @@ namespace Comercio.Controllers
     public class ProdutsController : ControllerBase
     {
         //GET
-        [HttpGet("/produtos")]
+        [HttpGet("/products")]
         public IActionResult Get([FromServices] AppDbContext context)=> Ok(context.Product.ToList());
         
         //POST
-        [HttpPost("/produtos")]
+        [HttpPost("/products")]
         public IActionResult Post (
             [FromBody] Products product,
             [FromServices] AppDbContext context)
@@ -21,10 +21,10 @@ namespace Comercio.Controllers
                 context.Product.Add(product);
                 context.SaveChanges();
 
-                return Created($"/produtos/{product.Id}",product);
+                return Created($"/products/{product.Id}",product);
             }
         //GET BY ID
-        [HttpGet("/produtos/{id:int}")]
+        [HttpGet("/products/{id:int}")]
         public IActionResult GetById(
             [FromRoute] int id,
             [FromServices] AppDbContext context){ 
@@ -35,7 +35,7 @@ namespace Comercio.Controllers
             return Ok(prod);
         }   
         //PUT
-        [HttpPut("/produtos/{id:int}")]
+        [HttpPut("/products/{id:int}")]
          public IActionResult Put (
              [FromRoute] int id,
             [FromBody] Products product,
@@ -46,15 +46,15 @@ namespace Comercio.Controllers
                     return NotFound();
                 }
                 model.Name = product.Name;
-                model.Value = product.Value;
-                model.Amount = product.Amount;
+                model.Price = product.Price;
+                model.Stock = product.Stock;
                 
                 context.Product.Update(model);
                 context.SaveChanges();
                 return Ok(model);
             }
             //DELETE
-        [HttpDelete("/produtos/{id:int}")]
+        [HttpDelete("/products/{id:int}")]
          public IActionResult Delete (
             [FromRoute] int id,
             [FromServices] AppDbContext context)
