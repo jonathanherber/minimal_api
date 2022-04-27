@@ -1,0 +1,44 @@
+var post = context.
+    Posts.
+    AsNoTracking.
+    Where(x=>x.AuthorId==6).  //pega outra tabela direta pela propriedade de navegacao
+    OrderByLastUpdated(x=>x.LastUpdated).
+    ToList();
+
+
+//dois join
+var post = context.
+    Posts.
+    AsNoTracking.
+    Include(x=>x.Author).  //pega outra tabela direta pela propriedade de navegacao
+    Include(x=>x.Category). //pega outra tabela direta pela propried
+    OrderByLastUpdated(x=>x.LastUpdated).
+    ToList();
+
+post.Author?.Name
+post.Category?.Name
+
+// interno
+var post = context.
+    Posts.
+    AsNoTracking.
+    Include(x=>x.Author).  //pega outra tabela direta pela propriedade de navegacao
+    Include(x=>x.Category). //pega outra tabela direta pela propried
+        .ThenInclude(x=>x.Id)  //esse pega as prop de Category
+    OrderByLastUpdated(x=>x.LastUpdated).
+    ToList();
+
+//esse then include é usado com List<Post> Posts para trazer todos os posts da category nesse caso, cuidar com deadlock
+
+
+//update
+var post = context.
+    Posts.
+    Include(x=>x.Author). 
+    Include(x=>x.Category).
+    OrderByLastUpdated(x=>x.LastUpdated).
+    FirstOrDefault();
+
+post.Author.Name = "jose";
+context.Posts.Update(post);
+context.SaveChanges();

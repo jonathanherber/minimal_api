@@ -12,8 +12,11 @@ namespace Comercio.Controllers
         //GET
         [HttpGet("/carrinho")]
        
-        public IActionResult Get([FromServices] AppDbContext context)=> Ok(context.Carrinhos.ToList());
-
+        public IActionResult Get([FromServices] AppDbContext context)=> Ok(context.Carrinhos.
+               //Include(x=>x.Cliente).
+                //Include(x=>x.Produto).
+                ToList());
+        
 
         //POST
         [HttpPost("/carrinho")]
@@ -21,20 +24,34 @@ namespace Comercio.Controllers
             [FromBody] Carrinho carrinho,
             [FromServices] AppDbContext context)
             {
-                // var clienteValido = context.Order.FirstOrDefault(x=>x.ClientId==order.ClientId);
-                // if (clienteValido == null)
-                //     return NotFound();
-                // var produtoValido = context.Order.FirstOrDefault(x=>x.ProductId==order.ProductId);
-                // if (produtoValido == null)
-                //     return NotFound();
-                //var produtoBanco = context.Product.Where(x=>x.Id==produtoValido.ProductId);
-                //order.TotalValue.value *= order.Amount;
+                var clienteValido = context.Clientes.FirstOrDefault(x=>x.Id==carrinho.ClienteId);
+                    if (clienteValido != null)
+                    {
+                        var produtoValido = context.Produtos.FirstOrDefault(x=>x.Id==carrinho.ProdutoId);
+                            if (produtoValido != null)
+                                {
+                                    if(carrinho.Quantidade>0){
+                                        context.Carrinhos.Add(carrinho);
+                                        context.SaveChanges();
+                                        return Created($"/carrinho/{carrinho.Id}",carrinho);
+                                    }
+                                    else
+                                    {
+                                        return BadRequest("Quantidade precisa ser maior que zero");
+                                    }
 
-                context.Carrinhos.Add(carrinho);
-                context.SaveChanges();
-
-                return Created($"/carrinho/{carrinho.Id}",carrinho);
+                                }
+                            else
+                            {
+                                return NotFound("Produto não encotrado");
+                            }
+                
+                    }
+                    else{
+                        return NotFound("Cliente não encontrado");
+                    }
             }
+            
         //GET BY ID
         [HttpGet("/carrinho/{id:int}")]
         public IActionResult GetById(
