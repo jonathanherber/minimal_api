@@ -13,7 +13,7 @@ namespace Comercio.Controllers
         [HttpGet("/carrinho")]
        
         public IActionResult Get([FromServices] AppDbContext context)=> Ok(context.Carrinhos.
-               //Include(x=>x.Cliente).
+                //Include(x=>x.Cliente).
                 //Include(x=>x.Produto).
                 ToList());
         
@@ -51,23 +51,15 @@ namespace Comercio.Controllers
                         return NotFound("Cliente não encontrado");
                     }
             }
-            
+
         //GET BY ID
         [HttpGet("/carrinho/{id:int}")]
         public IActionResult GetById(
             [FromRoute] int id,
             [FromServices] AppDbContext context){ 
-
-            //var ord = context.Carrinhos
-            // .FromSqlRaw($@"SELECT Order.Id, Order.ClientId, Order.OrderDetails, Order.CreatedAt, Client.Id, Client.Name, Client.Phone, Client.CreatedAt,Client.Orders
-            //             FROM Order 
-            //             INNER JOIN Client
-            //             ON Order.ClientId = Client.Id
-            //             AND Order.Id={id};")
-            // .ToList();
             var car = context.Carrinhos.FirstOrDefault(x=>x.Id == id);
             if (car == null)
-                return NotFound();
+                return NotFound("Carrinho não encontrado");
             return Ok(car);
         }  
 
@@ -79,10 +71,10 @@ namespace Comercio.Controllers
             {
                 var model = context.Carrinhos.FirstOrDefault(x=>x.Id==id);
                 if (model == null)
-                    return NotFound();
+                    return NotFound("Carrinho não encontrado");
                 context.Carrinhos.Remove(model);
                 context.SaveChanges();
-                return Ok(model);
+                return Ok("Excluido com sucesso");
             }
         //PUT
         [HttpPut("/carrinho/{id:int}")]
@@ -92,30 +84,46 @@ namespace Comercio.Controllers
             [FromServices] AppDbContext context)
             {
                 var model = context.Carrinhos.FirstOrDefault(x=>x.Id==id);
-                if (model == null){
-                    return NotFound();
-                }
-                model.ClienteId = carrinho.ClienteId;
+                var clienteValido = context.Clientes.FirstOrDefault(x=>x.Id==carrinho.ClienteId);
+                    if (clienteValido != null)
+                    {
+                        var produtoValido = context.Produtos.FirstOrDefault(x=>x.Id==carrinho.ProdutoId);
+                            if (produtoValido != null)
+                                {
+                                    if(carrinho.Quantidade>0){
+                                        if (model != null)
+                                        {
+                                            model.ClienteId = carrinho.ClienteId;
+                                            model.Quantidade = carrinho.Quantidade;
+                                            model.ProdutoId = carrinho.ProdutoId;
+
+                                            context.Carrinhos.Update(model);
+                                            context.SaveChanges();
+                                            return Ok("Atualizado com sucesso");
+                                        }else
+                                        {
+                                            return NotFound("Carrinho não encontrado");
+                                        }
+                                        
+                                    }
+                                    else
+                                    {
+                                        return BadRequest("Quantidade precisa ser maior que zero");
+                                    }
+
+                                }
+                            else
+                            {
+                                return NotFound("Produto não encotrado");
+                            }
                 
-                context.Carrinhos.Update(model);
-                context.SaveChanges();
-                return Ok(model);
+                    }
+                    else{
+                        return NotFound("Cliente não encontrado");
+                    }
+
+                
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 }
