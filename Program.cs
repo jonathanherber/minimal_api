@@ -1,5 +1,7 @@
 using Comercio.Data;
 using Microsoft.OpenApi.Models;
+using Comercio.Models;
+using MySQL.Data.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>();
 
-//var conection = new AppDbContext();
+
 
 var app = builder.Build();
 

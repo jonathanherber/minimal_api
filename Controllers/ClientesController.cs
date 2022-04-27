@@ -1,66 +1,74 @@
 using Microsoft.AspNetCore.Mvc;
 using Comercio.Data;
 using Comercio.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Comercio.Controllers
 {
     [ApiController]
     //[Route("/clientes")]
-    public class ClientsController : ControllerBase
+    public class ClientesController : ControllerBase
     {
         //GET
-        [HttpGet("/clients")]
-        public IActionResult Get([FromServices] AppDbContext context)=> Ok(context.Client.ToList());
+        [HttpGet("/clientes")]
+        public IActionResult Get([FromServices] AppDbContext context){
+            // var cli = context.Clients
+            // .FromSqlRaw("SELECT * FROM Client")
+            // .ToList();
+            // return Ok(cli);
+            return Ok(context.Clientes.ToList());
+        }
+         
         
         //POST
-        [HttpPost("/clients")]
+        [HttpPost("/clientes")]
         public IActionResult Post (
-            [FromBody] Clients client,
+            [FromBody] Cliente cliente,
             [FromServices] AppDbContext context)
             {
-                context.Client.Add(client);
+                context.Clientes.Add(cliente);
                 context.SaveChanges();
 
-                return Created($"/clients/{client.Id}",client);
+                return Created($"/clientes/{cliente.Id}",cliente);
             }
         //GET BY ID
-        [HttpGet("/clients/{id:int}")]
+        [HttpGet("/clientes/{id:int}")]
         public IActionResult GetById(
             [FromRoute] int id,
             [FromServices] AppDbContext context){ 
 
-            var clien = context.Client.FirstOrDefault(x=>x.Id == id);
+            var clien = context.Clientes.FirstOrDefault(x=>x.Id == id);
             if (clien == null)
                 return NotFound();
             return Ok(clien);
         }   
         //PUT
-        [HttpPut("/clients/{id:int}")]
+        [HttpPut("/clientes/{id:int}")]
          public IActionResult Put (
             [FromRoute] int id,
-            [FromBody] Clients client,
+            [FromBody] Cliente clientes,
             [FromServices] AppDbContext context)
             {
-                var model = context.Client.FirstOrDefault(x=>x.Id==id);
+                var model = context.Clientes.FirstOrDefault(x=>x.Id==id);
                 if (model == null){
                     return NotFound();
                 }
-                model.Name = client.Name;
-                
-                context.Client.Update(model);
+                model.Nome = clientes.Nome;
+                model.Telefone = clientes.Telefone;
+                context.Clientes.Update(model);
                 context.SaveChanges();
                 return Ok(model);
             }
             //DELETE
-        [HttpDelete("/clients/{id:int}")]
+        [HttpDelete("/clientes/{id:int}")]
          public IActionResult Delete (
             [FromRoute] int id,
             [FromServices] AppDbContext context)
             {
-                var model = context.Client.FirstOrDefault(x=>x.Id==id);
+                var model = context.Clientes.FirstOrDefault(x=>x.Id==id);
                 if (model == null)
                     return NotFound();
-                context.Client.Remove(model);
+                context.Clientes.Remove(model);
                 context.SaveChanges();
                 return Ok(model);
             }
