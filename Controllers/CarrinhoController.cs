@@ -24,6 +24,7 @@ namespace Comercio.Controllers
             [FromBody] Carrinho carrinho,
             [FromServices] AppDbContext context)
             {
+            
                 var clienteValido = context.Clientes.FirstOrDefault(x=>x.Id==carrinho.ClienteId);
                     if (clienteValido != null)
                     {

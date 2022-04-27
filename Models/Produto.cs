@@ -28,6 +28,5 @@ namespace Comercio.Models
         [JsonIgnore]
         public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
 
-
     }
 }

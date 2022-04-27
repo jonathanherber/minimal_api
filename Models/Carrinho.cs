@@ -12,22 +12,28 @@ namespace Comercio.Models
         [Key] //PK
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; private set; }
+        
 
         [Required(ErrorMessage="Campo obrigatório")]
         [Column("Quantidade",TypeName = "int")]
         public int Quantidade { get; set; }
 
-        [ForeignKey("ClienteId")] //referencia para FK, onde Produto (classe) Id (propriedade)
-        //[Required(ErrorMessage="Campo obrigatório")]
+
+        [ForeignKey("ClienteId")] //referencia para FK, onde Produto (classe) Id (propriedade) 
         public int ClienteId { get; set; } //FK
+
+
         [JsonIgnore]
         public Cliente? Cliente { get; set; } //propriedade de navegacao para buscar todos os dados no join
         
+        
         [ForeignKey("ProdutoId")] //referencia para FK, onde Produto (classe) Id (propriedade)
-        //[Required(ErrorMessage="Campo obrigatório")]
         public int ProdutoId { get; set; } //FK
+
+
         [JsonIgnore]
         public Produto? Produto { get; set; } //propriedade de navegacao para buscar todos os dados no join
+
 
         [JsonIgnore]
         public DateTime DataCriacao { get; set; } = DateTime.UtcNow;

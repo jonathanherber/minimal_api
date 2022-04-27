@@ -12,26 +12,35 @@ namespace Comercio.Controllers
         [HttpGet("/compras")]
         public IActionResult Get([FromServices] AppDbContext context)=> Ok(context.Compras.ToList());
 
-        // //POST
-        // [HttpPost("/orders")]
-        // public IActionResult Post (
-        //     [FromBody] Order order,
-        //     [FromServices] AppDbContext context)
-        //     {
-        //         // var clienteValido = context.Order.FirstOrDefault(x=>x.ClientId==order.ClientId);
-        //         // if (clienteValido == null)
-        //         //     return NotFound();
-        //         // var produtoValido = context.Order.FirstOrDefault(x=>x.ProductId==order.ProductId);
-        //         // if (produtoValido == null)
-        //         //     return NotFound();
-        //         //var produtoBanco = context.Product.Where(x=>x.Id==produtoValido.ProductId);
-        //         //order.TotalValue.value *= order.Amount;
-
-        //         context.Orders.Add(order);
-        //         context.SaveChanges();
-
-        //         return Created($"/clients/{order.Id}",order);
-        //     }
+        //POST
+        [HttpPost("/compras/{id:int}")]
+        public IActionResult Post (
+            [FromRoute] int id,
+            [FromServices] AppDbContext context)
+            {
+                //var carrinhoValido = context.Carrinhos.FirstOrDefault(x=>x.Id==compras.CarrinhoId);
+                //var idqtapegando = context.Carrinhos.Include(x=>x.Compras));
+                // if (carrinhoValido == null)
+                // {
+                //     return NotFound(carrinhoValido);
+                // }
+                //     return Ok(carrinhoValido);
+                //     compras.CompraFinalizada = true;
+                //     var prod = carrinhoValido.ProdutoId;
+                //     var preco = context.Produtos.FirstOrDefault(x=>x.Id==prod);
+                //     var qtd = carrinhoValido.Quantidade;
+                //     return Ok(prod);
+                // }
+                // else
+                // {
+                //     return NotFound("Carrinho não encontrado");
+                // }
+                //context.Compras.Add(compras);
+                //context.SaveChanges();
+                var total = 10;
+                //return Created($"/compras/{compras.Id}",compras);
+                return Ok($"Compra no valor de R${total} finalizada com sucesso");
+            }
 
         //GET BY ID
         [HttpGet("/compras/{id:int}")]
